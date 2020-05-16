@@ -1,5 +1,9 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { shade } from 'polished';
+
+interface FormProps {
+  hasError: boolean;
+}
 
 export const Title = styled.h1`
   font-size: 48px;
@@ -10,7 +14,7 @@ export const Title = styled.h1`
   margin-top: 80px;
 `;
 
-export const Form = styled.form`
+export const Form = styled.form<FormProps>`
   margin-top: 40px;
   max-width: 700px;
 
@@ -22,7 +26,16 @@ export const Form = styled.form`
     padding: 0 24px;
     border: 0;
     border-radius: 5px 0 0 5px;
-    color: #3a3a3a;
+    color: #f2f2f2;
+    border: 2px solid rgb(32, 32, 36);
+    background: rgb(32, 32, 36);
+    border-right: 0;
+
+    ${(props) =>
+      props.hasError &&
+      css`
+        border-color: #c53030;
+      `}
 
     &::placeholder {
       color: #a8a8b3;
@@ -37,10 +50,50 @@ export const Form = styled.form`
     border: 0;
     color: #ffff;
     font-weight: bold;
+    cursor: pointer;
     transition: background-color 0.2s;
 
     &:hover {
       background: ${shade(0.2, '#04d361')};
+    }
+  }
+`;
+
+export const Error = styled.span`
+  display: block;
+  color: #c53030;
+  margin-top: 8px;
+`;
+
+export const Repo = styled.div`
+  display: flex;
+  max-width: 100%;
+  flex-direction: row;
+  align-items: center;
+  background: rgb(32, 32, 36);
+  border-radius: 5px;
+  transition: transform 0.2s;
+  margin-bottom: 16px;
+
+  &:hover {
+    transform: translate(12px);
+  }
+`;
+
+export const DeleteButton = styled.div`
+  border-radius: 4px;
+  padding: 4px;
+  margin-left: 10px;
+  transition: background-color 0.4s;
+  svg {
+    cursor: pointer;
+    align-items: center;
+  }
+
+  &:hover {
+    background-color: #c53030;
+    svg {
+      color: #000;
     }
   }
 `;
@@ -50,8 +103,6 @@ export const Repositories = styled.div`
   max-width: 700px;
 
   a {
-    background: #ffff;
-    border-radius: 5px;
     width: 100%;
     padding: 24px;
     display: block;
@@ -59,14 +110,9 @@ export const Repositories = styled.div`
 
     display: flex;
     align-items: center;
-    transition: transform 0.2s;
 
     & + a {
       margin-top: 16px;
-    }
-
-    &:hover {
-      transform: translate(10px);
     }
   }
 
@@ -74,14 +120,15 @@ export const Repositories = styled.div`
     width: 64px;
     height: 64px;
     border-radius: 50%;
+    margin-right: 15px;
   }
 
   div {
-    margin-left: 16px;
+    flex: 1;
 
     strong {
       font-size: 20px;
-      color: #3d3d4d;
+      color: #f2f2f2;
     }
 
     p {
